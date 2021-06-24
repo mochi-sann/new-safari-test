@@ -1,56 +1,32 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import React, { useEffect } from "react";
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+import { ColorPicker, useColor } from "react-color-palette";
+import Container from "@material-ui/core/Container";
+import { css, cx } from "@emotion/css";
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>typescript</Code>.
-      </Text>
+const Index = () => {
+  const [color, setColor] = useColor("hex", "#121212");
+  useEffect(() => {
+    return () => {
+      // console.log(color.hex);
+      document.body.style.backgroundColor = color.hex;
+    };
+  }, [color]);
+  return (
+    <Container>
+      <pre style={{ backgroundColor: "#fff" }}>
+        {JSON.stringify(color, null, 2)}
+      </pre>
+      <ColorPicker
+        width={456}
+        height={228}
+        color={color}
+        onChange={setColor}
+        // hideHSV
+        // dark
+      />
+    </Container>
+  );
+};
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
-
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
-
-export default Index
+export default Index;
